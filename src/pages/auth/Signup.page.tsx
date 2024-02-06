@@ -1,11 +1,9 @@
-import { SupabaseData } from '@/models/supabase-data';
 import { signup } from '@/services/auth.service';
-import { TextInput, Checkbox, Button, Group, Box, PasswordInput, Text } from '@mantine/core';
+import { TextInput, Checkbox, Button, Group, Box, PasswordInput, Text, Anchor } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { AuthError } from '@supabase/supabase-js';
 
 
-export function AuthPage() {
+export function SignupPage() {
   let genericError: string | undefined = '';
 
   const form = useForm({
@@ -23,6 +21,7 @@ export function AuthPage() {
 
   const onSubmit = async (values: User) => {
     const { data, error } = await signup(values.email, values.password);
+    console.log(data)
     genericError = error?.message
   }
 
@@ -55,6 +54,9 @@ export function AuthPage() {
           <Button type="submit">Submit</Button>
         </Group>
       </form>
+      <Anchor href="/">
+        Login
+      </Anchor>
     </Box>
   );
 }
