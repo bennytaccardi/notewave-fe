@@ -1,7 +1,8 @@
-import { signup } from '@/services/auth.service';
+/* eslint-disable import/extensions */
 import { TextInput, Checkbox, Button, Group, Box, PasswordInput, Text, Anchor } from '@mantine/core';
 import { useForm } from '@mantine/form';
-
+import { signup } from '@/services/auth.service';
+import { User } from '@/models/user';
 
 export function SignupPage() {
   let genericError: string | undefined = '';
@@ -15,15 +16,15 @@ export function SignupPage() {
 
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      password: (value) => (null),
+      password: () => (null),
     },
   });
 
   const onSubmit = async (values: User) => {
     const { data, error } = await signup(values.email, values.password);
-    console.log(data)
-    genericError = error?.message
-  }
+    console.log(data);
+    genericError = error?.message;
+  };
 
   return (
     <Box maw={340} mx="auto">
@@ -38,7 +39,7 @@ export function SignupPage() {
         <PasswordInput
           withAsterisk
           label="Password"
-          placeholder='Insert you password'
+          placeholder="Insert you password"
           {...form.getInputProps('password')}
         />
 

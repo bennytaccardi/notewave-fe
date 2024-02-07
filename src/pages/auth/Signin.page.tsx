@@ -1,13 +1,15 @@
-
-import { signin } from '@/services/auth.service';
+/* eslint-disable import/extensions */
+/* eslint-disable react/jsx-indent-props */
 import { TextInput, Checkbox, Button, Group, Box, PasswordInput, Text, Anchor } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useNavigate } from 'react-router-dom';
-
+import { useState } from 'react';
+import { signin } from '@/services/auth.service';
+import { User } from '@/models/user';
 
 export function SigninPage() {
     const navigate = useNavigate();
-    let genericError: string | undefined = '';
+    const [genericError, setGenericError] = useState('');
 
     const form = useForm({
         initialValues: {
@@ -18,7 +20,7 @@ export function SigninPage() {
 
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-            password: (value) => (null),
+            password: () => (null),
         },
     });
 
@@ -27,7 +29,8 @@ export function SigninPage() {
         if (data.data.user?.aud === 'authenticated' && !data.error) {
             navigate('/home');
         }
-    }
+        setGenericError(data.error!.message);
+    };
 
     return (
         <Box maw={340} mx="auto">
@@ -42,7 +45,7 @@ export function SigninPage() {
                 <PasswordInput
                     withAsterisk
                     label="Password"
-                    placeholder='Insert you password'
+                    placeholder="Insert you password"
                     {...form.getInputProps('password')}
                 />
 
@@ -52,12 +55,11 @@ export function SigninPage() {
                     {...form.getInputProps('termsOfService', { type: 'checkbox' })}
                 />
 
-                <Text c="red" size="xs" mt={7}>{genericError}</Text>
-
                 <Group justify="flex-end" mt="md">
                     <Button type="submit">Submit</Button>
                 </Group>
             </form>
+            <Text c="red" size="s" mt={7}>{genericError}</Text>
             <Anchor href="/signup">
                 Signup
             </Anchor>
