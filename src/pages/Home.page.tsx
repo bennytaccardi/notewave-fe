@@ -1,5 +1,7 @@
-import { AppShell, Burger } from '@mantine/core';
+/* eslint-disable import/extensions */
+import { AppShell, Burger, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { NoteGrid } from '@/components/NoteGrid';
 
 export function HomePage() {
   const [opened, { toggle }] = useDisclosure();
@@ -26,7 +28,10 @@ export function HomePage() {
 
       <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
 
-      <AppShell.Main>Main</AppShell.Main>
+      <AppShell.Main>
+        <Text>+new note</Text>
+        <NoteGrid />
+      </AppShell.Main>
     </AppShell>
   );
 }
